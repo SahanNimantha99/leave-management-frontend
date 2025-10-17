@@ -13,9 +13,8 @@ export default function ApplyLeaveForm() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const { leaves } = useSelector((state) => state.leave);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!fromDate || !toDate || !reason) {
@@ -25,36 +24,34 @@ export default function ApplyLeaveForm() {
       return toast.error("To date cannot be before from date");
     }
 
-    const existingApprovedLeaves = leaves.filter(
-      (l) => l.userId === user.id && l.status === "Approved"
-    );
-
-    const isConflict = existingApprovedLeaves.some(
-      (l) =>
-        new Date(fromDate) <= new Date(l.toDate) &&
-        new Date(toDate) >= new Date(l.fromDate)
-    );
-
-    if (isConflict) {
-      return toast.error(
-        "Leave request conflicts with an existing approved leave"
+    try {
+      const resultAction = await dispatch(
+        createLeave({
+          fromDate,
+          toDate,
+          reason,
+          status: "Pending",
+          userId: user.id,
+        })
       );
+
+      if (createLeave.rejected.match(resultAction)) {
+        if (resultAction.payload?.status === 409) {
+          toast.error(resultAction.payload.message);
+        } else {
+          toast.error(resultAction.payload?.message || "Failed to apply leave");
+        }
+        return;
+      }
+
+      setFromDate("");
+      setToDate("");
+      setReason("");
+      toast.success("Leave applied successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error("Server error while applying leave");
     }
-
-    dispatch(
-      createLeave({
-        fromDate,
-        toDate,
-        reason,
-        status: "Pending",
-        userId: user.id,
-      })
-    );
-
-    setFromDate("");
-    setToDate("");
-    setReason("");
-    toast.success("Leave applied successfully");
   };
 
   return (
