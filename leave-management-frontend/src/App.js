@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./features/auth/Login";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
+import "./App.css";
 
 function App() {
   return (

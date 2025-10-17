@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
+
 import { fetchLeaves, deleteLeave, approveRejectLeave } from "./leaveSlice";
 import { toast } from "react-toastify";
 import "./Leave.css";
@@ -13,7 +15,6 @@ export default function LeaveTable({ adminView }) {
     dispatch(fetchLeaves());
   }, [dispatch]);
 
-  // Employee cancel leave
   const handleCancel = async (leave) => {
     try {
       await dispatch(deleteLeave(leave.id)).unwrap();
@@ -23,7 +24,6 @@ export default function LeaveTable({ adminView }) {
     }
   };
 
-  // Admin approve/reject
   const handleUpdate = async (leave, status) => {
     try {
       await dispatch(approveRejectLeave({ id: leave.id, status })).unwrap();
@@ -34,7 +34,6 @@ export default function LeaveTable({ adminView }) {
     }
   };
 
-  // Filter leaves by status
   const filteredLeaves =
     filter === "All"
       ? leaves

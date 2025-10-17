@@ -1,18 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 import api from "../../api/axios";
 
-// Fetch leaves (admin sees all, employee sees own)
 export const fetchLeaves = createAsyncThunk("leave/fetchLeaves", async () => {
   const res = await api.get("/leaves");
 
-  // Format leaves to include employeeName for admin view
   return res.data.map((l) => ({
     ...l,
     employeeName: l.User ? l.User.name : "Unknown",
   }));
 });
 
-// Create leave
 export const createLeave = createAsyncThunk(
   "leave/createLeave",
   async (data) => {
@@ -21,7 +19,6 @@ export const createLeave = createAsyncThunk(
   }
 );
 
-// Employee edit leave (only pending)
 export const editLeave = createAsyncThunk(
   "leave/editLeave",
   async ({ id, updates }) => {
@@ -30,7 +27,6 @@ export const editLeave = createAsyncThunk(
   }
 );
 
-// Admin approve/reject leave
 export const approveRejectLeave = createAsyncThunk(
   "leave/approveRejectLeave",
   async ({ id, status }) => {
@@ -39,7 +35,6 @@ export const approveRejectLeave = createAsyncThunk(
   }
 );
 
-// Delete leave (cancel by employee)
 export const deleteLeave = createAsyncThunk("leave/deleteLeave", async (id) => {
   await api.delete(`/leaves/${id}`);
   return id;

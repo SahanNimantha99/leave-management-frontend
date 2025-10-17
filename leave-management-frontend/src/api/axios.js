@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// Axios instance
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL || "http://localhost:5000/api",
   headers: {
@@ -8,7 +7,6 @@ const api = axios.create({
   },
 });
 
-// Attach JWT token to every request if available
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {

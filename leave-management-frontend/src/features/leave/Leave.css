@@ -1,0 +1,198 @@
+body, input, textarea, button, select {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.apply-leave-form {
+  background: #ffffff;
+  padding: 35px 30px;
+  border-radius: 16px;
+  max-width: 500px;
+  margin: 40px auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.apply-leave-form:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
+}
+
+.apply-leave-form h3 {
+  color: #4b0082;
+  margin-bottom: 30px;
+  font-size: 1.8em;
+  font-weight: 700;
+}
+
+.apply-leave-form input,
+.apply-leave-form textarea {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  box-sizing: border-box;
+  transition: border 0.3s;
+}
+
+.apply-leave-form input:focus,
+.apply-leave-form textarea:focus {
+  border-color: #6a0dad;
+  outline: none;
+}
+
+.apply-leave-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.apply-leave-form button {
+  width: 100%;
+  padding: 14px;
+  background: #6a0dad;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.1em;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.apply-leave-form button:hover {
+  background: #4b0082;
+  transform: translateY(-1px);
+}
+
+.leave-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 35px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 60px;
+}
+
+.leave-table th,
+.leave-table td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.95em;
+}
+
+.leave-table th {
+  background: #6a0dad;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.leave-table tbody tr:hover {
+  background: #f5f0ff;
+}
+
+.leave-table .status.pending {
+  color: #ff9800;
+  font-weight: bold;
+}
+
+.leave-table .status.approved {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.leave-table .status.rejected {
+  color: #f44336;
+  font-weight: bold;
+}
+
+.leave-table button {
+  padding: 6px 12px;
+  margin-right: 5px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.3s, transform 0.1s;
+  font-size: 0.9em;
+}
+
+.leave-table button:hover {
+  opacity: 0.85;
+}
+
+.leave-table button:active {
+  transform: scale(0.97);
+}
+
+.approve-btn {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.reject-btn {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.cancel-btn {
+  background-color: #ff9800;
+  color: #fff;
+}
+
+.filter-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+  justify-content: flex-start;
+}
+
+.filter-container label {
+  font-weight: 600;
+  color: #4b0082;
+}
+
+.filter-container select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95em;
+}
+
+@media (max-width: 768px) {
+  .apply-leave-form {
+    width: 95%;
+    padding: 30px 20px;
+    margin: 30px auto;
+  }
+
+  .apply-leave-form h3 {
+    font-size: 1.6em;
+    margin-bottom: 25px;
+  }
+
+  .apply-leave-form input,
+  .apply-leave-form textarea,
+  .apply-leave-form button {
+    padding: 12px;
+    font-size: 0.95em;
+  }
+
+  .leave-table th,
+  .leave-table td {
+    padding: 10px 8px;
+    font-size: 0.85em;
+  }
+
+  .filter-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
