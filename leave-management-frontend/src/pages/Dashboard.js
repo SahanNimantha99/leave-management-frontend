@@ -1,14 +1,14 @@
+import { useSelector } from "react-redux";
+
 import ApplyLeaveForm from "../features/leave/ApplyLeaveForm";
 import LeaveList from "../features/leave/LeaveList";
 import LeaveTable from "../features/leave/LeaveTable";
-import { useSelector } from "react-redux";
+import "./Dashboard.css";
 
 export default function Dashboard() {
-  // Get user and leave data from Redux store
   const { user } = useSelector((state) => state.auth);
   const { leaves } = useSelector((state) => state.leave);
 
-  // Compute leave stats for dashboard cards
   const stats = {
     total: leaves.length,
     pending: leaves.filter((l) => l.status === "Pending").length,

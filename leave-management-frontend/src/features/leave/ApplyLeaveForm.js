@@ -1,25 +1,45 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { createLeave } from "./leaveSlice";
+
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+
+import { createLeave } from "./leaveSlice";
+import "./Leave.css";
 
 export default function ApplyLeaveForm() {
-  // Form state
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [reason, setReason] = useState("");
-  // Redux dispatch
   const dispatch = useDispatch();
-  // Get user from auth state
-  const { user } = useSelector((state) => state.auth);
 
-  // Handle form submission
+  const { user } = useSelector((state) => state.auth);
+  const { leaves } = useSelector((state) => state.leave);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!fromDate || !toDate || !reason)
+
+    if (!fromDate || !toDate || !reason) {
       return toast.error("All fields required");
-    if (new Date(toDate) < new Date(fromDate))
+    }
+    if (new Date(toDate) < new Date(fromDate)) {
       return toast.error("To date cannot be before from date");
+    }
+
+    const existingApprovedLeaves = leaves.filter(
+      (l) => l.userId === user.id && l.status === "Approved"
+    );
+
+    const isConflict = existingApprovedLeaves.some(
+      (l) =>
+        new Date(fromDate) <= new Date(l.toDate) &&
+        new Date(toDate) >= new Date(l.fromDate)
+    );
+
+    if (isConflict) {
+      return toast.error(
+        "Leave request conflicts with an existing approved leave"
+      );
+    }
 
     dispatch(
       createLeave({
@@ -34,7 +54,7 @@ export default function ApplyLeaveForm() {
     setFromDate("");
     setToDate("");
     setReason("");
-    toast.success("Leave applied");
+    toast.success("Leave applied successfully");
   };
 
   return (

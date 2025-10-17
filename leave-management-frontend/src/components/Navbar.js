@@ -1,24 +1,22 @@
 import { useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+
 import { logout } from "../features/auth/authSlice";
-import "../App.css";
+import "./Navbar.css";
 
 export default function Navbar() {
-  // Access user state and dispatch from Redux store
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // Handle mobile menu toggle
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Handle user logout
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
   };
 
-  // Toggle mobile menu
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (

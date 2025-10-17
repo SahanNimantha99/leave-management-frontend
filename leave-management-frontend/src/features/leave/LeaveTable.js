@@ -1,33 +1,40 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchLeaves, deleteLeave, updateLeave } from "./leaveSlice";
+import { fetchLeaves, deleteLeave, approveRejectLeave } from "./leaveSlice";
 import { toast } from "react-toastify";
+import "./Leave.css";
 
 export default function LeaveTable({ adminView }) {
-  // Redux dispatch and state
   const dispatch = useDispatch();
   const { leaves } = useSelector((state) => state.leave);
   const [filter, setFilter] = useState("All");
 
-  // Fetch leaves on mount
   useEffect(() => {
     dispatch(fetchLeaves());
   }, [dispatch]);
 
-  // Handle approve/reject for admin
+  // Employee cancel leave
+  const handleCancel = async (leave) => {
+    try {
+      await dispatch(deleteLeave(leave.id)).unwrap();
+      toast.success("Leave canceled");
+    } catch {
+      toast.error("Failed to cancel leave");
+    }
+  };
+
+  // Admin approve/reject
   const handleUpdate = async (leave, status) => {
-    await dispatch(updateLeave({ id: leave.id, updates: { status } }));
-    toast.success(`Leave ${status}`);
-    dispatch(fetchLeaves()); // refresh after update
+    try {
+      await dispatch(approveRejectLeave({ id: leave.id, status })).unwrap();
+      toast.success(`Leave ${status}`);
+      dispatch(fetchLeaves());
+    } catch (err) {
+      toast.error(err?.message || "Failed to update leave");
+    }
   };
 
-  // Handle cancel for employee
-  const handleCancel = (leave) => {
-    dispatch(deleteLeave(leave.id));
-    toast.success("Leave canceled");
-  };
-
-  // Filter leaves based on status
+  // Filter leaves by status
   const filteredLeaves =
     filter === "All"
       ? leaves
@@ -70,25 +77,16 @@ export default function LeaveTable({ adminView }) {
                 {adminView
                   ? l.status === "Pending" && (
                       <>
-                        <button
-                          onClick={() => handleUpdate(l, "Approved")}
-                          className="approve-btn"
-                        >
+                        <button onClick={() => handleUpdate(l, "Approved")} className="approve-btn">
                           Approve
                         </button>
-                        <button
-                          onClick={() => handleUpdate(l, "Rejected")}
-                          className="reject-btn"
-                        >
+                        <button onClick={() => handleUpdate(l, "Rejected")} className="reject-btn">
                           Reject
                         </button>
                       </>
                     )
                   : l.status === "Pending" && (
-                      <button
-                        className="cancel-btn"
-                        onClick={() => handleCancel(l)}
-                      >
+                      <button className="cancel-btn" onClick={() => handleCancel(l)}>
                         Cancel
                       </button>
                     )}

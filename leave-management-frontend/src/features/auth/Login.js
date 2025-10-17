@@ -4,17 +4,14 @@ import { setUser, setToken } from "./authSlice";
 import api from "../../api/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
 export default function Login() {
-  // State for form inputs
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // Redux dispatch function
   const dispatch = useDispatch();
-  // Navigation function
   const navigate = useNavigate();
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
