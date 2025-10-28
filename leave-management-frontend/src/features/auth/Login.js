@@ -1,8 +1,10 @@
 import { useState } from "react";
+
 import { useDispatch } from "react-redux";
 import { setUser, setToken } from "./authSlice";
-import api from "../../api/axios";
 import { toast } from "react-toastify";
+
+import api from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 

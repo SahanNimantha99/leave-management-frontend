@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import { logout } from "../features/auth/authSlice";
 import "./Navbar.css";
