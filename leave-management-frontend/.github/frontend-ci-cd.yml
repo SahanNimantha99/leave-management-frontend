@@ -1,0 +1,44 @@
+name: Frontend CI/CD - React
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛠️ Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🧩 Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: 📦 Install Dependencies
+        working-directory: ./frontend
+        run: npm install
+
+      - name: ✅ Run Tests (if available)
+        working-directory: ./frontend
+        run: npm test --if-present
+
+      - name: ⚙️ Build React App
+        working-directory: ./frontend
+        run: npm run build
+
+      # --- CD: Deploy to AWS Amplify ---
+      - name: 🚀 Deploy to AWS Amplify
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: 📤 Upload build to Amplify
+        run: |
+          aws s3 sync ./frontend/build s3://your-amplify-app-bucket --delete
