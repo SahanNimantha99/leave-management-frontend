@@ -23,7 +23,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-left">
         <Link to="/dashboard" className="navbar-brand">
-          LeaveApp
+          OffTrack
         </Link>
       </div>
 

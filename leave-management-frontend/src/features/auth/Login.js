@@ -30,7 +30,7 @@ export default function Login() {
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+      <h2>OffTrack Login</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="email"
